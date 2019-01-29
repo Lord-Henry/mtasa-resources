@@ -602,7 +602,12 @@ addEventHandler("onResourceStart", resourceRoot,
 		local thisResourceName = getResourceName(getThisResource())
 		local requests = getResourceACLRequests(getThisResource())
 		if #requests > 0 then
-			outputDebugString(thisResourceName:upper()..": Some important ACL permissions are missing. To ensure the correct functioning of Mapmanager, please write: aclrequest allow mapmanager all")
+			for i,request in ipairs(requests) do
+				if request.pending then
+					outputDebugString(thisResourceName:upper()..": Some important ACL permissions are pending. To ensure the correct functioning of Mapmanager, please write: aclrequest allow mapmanager all")
+					return
+				end
+			end
 		end
 	end
 )
